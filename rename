@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Specify the root package to be renamed
+oldPackage="at.michaeladam"
+newPackage="at.michaeladam.polar"
+
+# Rename the package declaration in Java files
+find . -type f -name "*.java" -exec sed -i "s/package $oldPackage\(\.[A-Za-z_][A-Za-z0-9_]*\)*;/package $newPackage\1;/g" {} +
+
+# Rename the corresponding folders
+find . -type d -name "$oldPackage*" -exec bash -c 'dir="${0%/*}"; base="${0##*/}"; mv "$0" "$dir/${base/$1/$2}"' {} $oldPackage $newPackage \;
+
+# Update the import statements in Java files
+find . -type f -name "*.java" -exec sed -i "s/import $oldPackage\(\.[A-Za-z_][A-Za-z0-9_]*\)*;/import $newPackage\1;/g" {} +
