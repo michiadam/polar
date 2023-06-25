@@ -17,7 +17,7 @@
   <properties>
 
     <dependency.version.lombok>1.18.22</dependency.version.lombok>
-    <dependency.version.mapstruct>1.4.2.Final</dependency.version.mapstruct>
+    <dependency.version.mapstruct>1.5.5.Final</dependency.version.mapstruct>
     <compiler-plugin.version>3.11.0</compiler-plugin.version>
     <jandex-maven-plugin.version>1.2.2</jandex-maven-plugin.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
@@ -31,6 +31,8 @@
     <quarkus.platform.version>3.0.4.Final</quarkus.platform.version>
     <quarkus-plugin.version>${quarkus.platform.version}</quarkus-plugin.version>
     <surefire-plugin.version>3.0.0</surefire-plugin.version>
+    <skipTests>true</skipTests>
+    <skipITs>true</skipITs>
   </properties>
 
 

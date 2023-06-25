@@ -68,7 +68,10 @@ public class FrontendGenerator {
                 LOGGER.info(line);
             }
             int exitCode = process.waitFor();
-            LOGGER.info("Exited with error code : {0}", exitCode);
+            LOGGER.info(MessageFormat.format("Npm exited with code {0}", exitCode));
+            if(exitCode != 0) {
+                return "npm exited with code " + exitCode;
+            }
         } catch (IOException | InterruptedException e) {
             LOGGER.severe(MessageFormat.format("Error while running npm: {0}", e.getMessage()));
             Thread.currentThread().interrupt();

@@ -19,6 +19,14 @@ public class ID<T> implements Serializable, Comparable<ID<T>> {
 
     private UUID oid;
 
+    protected ID() {
+    }
+    public ID(UUID id) {
+        if(id != null) {
+            this.oid = id;
+        }
+    }
+
 
     @NonNull
     public static <T> ID<T> generateID( ) {

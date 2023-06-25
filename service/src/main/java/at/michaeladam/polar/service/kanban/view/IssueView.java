@@ -1,26 +1,26 @@
 package at.michaeladam.polar.service.kanban.view;
 
-import at.michaeladam.polar.persistence.common.ID;
+import at.michaeladam.polar.service.common.Identifier;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @NoArgsConstructor
 @Accessors(chain = true)
 @Getter
 @Setter
 @ToString
+@Builder
+@AllArgsConstructor
 public class IssueView {
 
-    private ID<IssueView> id;
+    private Identifier<IssueView> id;
 
     private String title;
     private String description;
 
-    private List<IssueView> issues = new ArrayList<>();
 }
