@@ -6,19 +6,25 @@ import {AppComponent} from './app.component';
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatButtonModule} from "@angular/material/button";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {ProjectComponent} from './component/project/project.component';
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
     declarations: [
         AppComponent,
+        ProjectComponent,
     ],
     imports: [
+        CommonModule,
         BrowserModule,
         AppRoutingModule,
+        HttpClientModule,
         MatInputModule,
         FormsModule,
         MatCardModule,
@@ -26,8 +32,8 @@ import {MatSidenavModule} from "@angular/material/sidenav";
         MatButtonModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
-        HttpClientModule,
-        MatSidenavModule
+        MatSidenavModule,
+        FontAwesomeModule
     ],
     providers: [
         HttpClientModule

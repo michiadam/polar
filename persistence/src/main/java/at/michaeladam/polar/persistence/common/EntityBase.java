@@ -4,10 +4,10 @@ package at.michaeladam.polar.persistence.common;
 import jakarta.persistence.*;
 
 @MappedSuperclass
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class EntityBase<T > {
 
-
+    @Id
+    protected ID<T> id;
     private int version;
 
     @PrePersist
@@ -23,9 +23,13 @@ public abstract class EntityBase<T > {
         version++;
     }
 
-    protected abstract ID<T> getId();
+    public ID<T> getId() {
+        return id;
+    }
 
-    protected abstract void setId(ID<T> id);
+    public void setId(ID<T> id) {
+        this.id = id;
+    }
 
     public int getVersion() {
         return version;

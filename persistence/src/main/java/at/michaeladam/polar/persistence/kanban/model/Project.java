@@ -1,34 +1,35 @@
 package at.michaeladam.polar.persistence.kanban.model;
 
+import at.michaeladam.polar.persistence.common.EntityBase;
 import at.michaeladam.polar.persistence.common.ID;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.sql.Array;
+import java.util.*;
 
 @Entity
 @Getter
 @Setter
-public class Project  {
+public class Project extends EntityBase<Project> {
 
-    @Id
-    protected ID<Project> pk;
+
     private String name;
 
     private String description;
 
-    @OneToMany(mappedBy = "project", orphanRemoval = true)
-    private Set<WorkflowStatus> workflowStatuses = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "project", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OrderColumn(name = "WORKFLOW_STATUS_ORDER")
+    private List<WorkflowStatus> workflowStatus = new ArrayList<>();
 
     public Optional<WorkflowStatus> getDefaultWorkflowStatus() {
-        return workflowStatuses.stream()
+        return workflowStatus.stream()
                 .filter(workflowStatus -> workflowStatus.getWorkflowType() == WorkflowStatus.WorkflowType.INITIAL)
                 .findFirst();
     }
-
+    public void addWorkflowStatus(WorkflowStatus workflowStatus) {
+        workflowStatus.setProject(this);
+        this.workflowStatus.add(workflowStatus);
+    }
 }

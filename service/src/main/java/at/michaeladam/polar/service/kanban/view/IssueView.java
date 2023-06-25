@@ -1,10 +1,7 @@
 package at.michaeladam.polar.service.kanban.view;
 
 import at.michaeladam.polar.persistence.common.ID;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
@@ -15,6 +12,8 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Builder
+@AllArgsConstructor
 public class IssueView {
 
     private ID<IssueView> id;
@@ -22,5 +21,4 @@ public class IssueView {
     private String title;
     private String description;
 
-    private List<IssueView> issues = new ArrayList<>();
 }

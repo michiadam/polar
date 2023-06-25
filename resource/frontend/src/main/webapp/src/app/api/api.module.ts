@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { FrontendGeneratorService } from './services/frontend-generator.service';
+import { KanbanResourceService } from './services/kanban-resource.service';
 
 /**
  * Module that provides all services and configuration.
@@ -15,6 +16,7 @@ import { FrontendGeneratorService } from './services/frontend-generator.service'
   declarations: [],
   providers: [
     FrontendGeneratorService,
+    KanbanResourceService,
     ApiConfiguration
   ],
 })
