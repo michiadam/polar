@@ -1,8 +1,5 @@
 <main class="project"
 	  *ngIf="project">
->
-
-
 	<div class="project-info">
 		<h1>{{project.name}}</h1>
 		<div class="project-participants">
@@ -12,15 +9,15 @@
 			<button class="project-participants__add">Add Participant</button>
 		</div>
 	</div>
-	<div class="project-tasks">
-		<div class="project-column" *ngFor="let status of project!.workflowStatus">
+	<div class="project-tasks" cdkDropListGroup>
+		<div class="project-column" *ngFor="let status of project!.lanes" [cdkDropListData]="status" cdkDropList (cdkDropListDropped)="drop(status, $event)">
 			<div class="project-column-heading">
 				<h2 class="project-column-heading__title">{{status.name}}</h2>
 				<button class="project-column-heading__options">
 					<fa-icon [icon]="faEllipsisH"></fa-icon>
 				</button>
 			</div>
-			<div class="task" *ngFor="let issue of status.issues">
+			<div class="task" *ngFor="let issue of status.issues" cdkDrag>
 				<div class="task__tags"><span class="task__tag task__tag--copyright">Copywriting</span>
 					<button class="task__options">
 						<fa-icon [icon]="faEllipsisH"></fa-icon>

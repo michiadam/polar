@@ -1,11 +1,10 @@
 /* tslint:disable */
 /* eslint-disable */
-import { IdProjectView } from './id-project-view';
-import { WorkflowStatusView } from './workflow-status-view';
+import { IdentifierProjectView } from './identifier-project-view';
+import { LaneView } from './lane-view';
 export interface ProjectView {
   description?: string;
-  id?: IdProjectView;
+  id?: IdentifierProjectView;
+  lanes?: Array<LaneView>;
   name?: string;
-  workflowStatus?: Array<WorkflowStatusView>;
-  workflowStatuses?: Array<WorkflowStatusView>;
 }

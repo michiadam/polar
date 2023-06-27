@@ -1,12 +1,15 @@
 package at.michaeladam.polar.service.common;
 
-import at.michaeladam.polar.persistence.common.ID;
-
+import java.lang.reflect.ParameterizedType;
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public class Identifier<T> {
 
     private UUID id;
+
+    public Identifier() {
+    }
 
     public Identifier(UUID id) {
         this.id = id;
@@ -16,16 +19,20 @@ public class Identifier<T> {
         return id;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
 
     @Override
     public String toString() {
-        return id.toString();
+        return MessageFormat.format("{0}({1})", getEntityClass().getSimpleName(), id);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Identifier) {
-            return ((Identifier) obj).getId().equals(id);
+        if (obj instanceof Identifier<?> identifier) {
+            return identifier.getId().equals(id);
         }
         return false;
     }
@@ -36,9 +43,12 @@ public class Identifier<T> {
     }
 
 
-
     public static <T> Identifier<T> fromString(String id) {
         return new Identifier<>(UUID.fromString(id));
+    }
+
+    protected Class<T> getEntityClass() {
+        return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
 }

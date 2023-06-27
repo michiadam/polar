@@ -1,8 +1,13 @@
 package at.michaeladam.polar.service.kanban.view;
 
-import at.michaeladam.polar.persistence.common.ID;
-import at.michaeladam.polar.persistence.kanban.model.WorkflowStatus;
-import lombok.*;
+import at.michaeladam.polar.persistence.kanban.model.Lane;
+import at.michaeladam.polar.service.common.Identifier;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
@@ -15,12 +20,12 @@ import java.util.List;
 @ToString
 @Builder
 @AllArgsConstructor
-public class WorkflowStatusView  {
-    private ID<WorkflowStatusView> id;
+public class LaneView {
+    private Identifier<LaneView> id;
     private String name;
     private String description;
     private List<IssueView> issues;
-    private WorkflowStatus.WorkflowType workflowType;
+    private Lane.WorkflowType workflowType;
 
     public List<IssueView> getIssues() {
         if(issues == null)

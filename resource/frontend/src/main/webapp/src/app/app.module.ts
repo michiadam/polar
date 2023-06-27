@@ -14,6 +14,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {ProjectComponent} from './component/project/project.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {CommonModule} from "@angular/common";
+import {CdkDrag, CdkDropList, CdkDropListGroup} from "@angular/cdk/drag-drop";
 
 @NgModule({
     declarations: [
@@ -33,7 +34,10 @@ import {CommonModule} from "@angular/common";
         BrowserAnimationsModule,
         ReactiveFormsModule,
         MatSidenavModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        CdkDropList,
+        CdkDropListGroup,
+        CdkDrag
     ],
     providers: [
         HttpClientModule

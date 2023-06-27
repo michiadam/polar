@@ -1,12 +1,12 @@
 package at.michaeladam.polar.service;
 
-import at.michaeladam.polar.persistence.kanban.model.WorkflowStatus;
+import at.michaeladam.polar.persistence.kanban.model.Lane;
 import at.michaeladam.polar.service.common.Identifier;
 import at.michaeladam.polar.service.kanban.mapper.ProjectMapper;
 import at.michaeladam.polar.service.kanban.service.KanbanService;
 import at.michaeladam.polar.service.kanban.view.IssueView;
+import at.michaeladam.polar.service.kanban.view.LaneView;
 import at.michaeladam.polar.service.kanban.view.ProjectView;
-import at.michaeladam.polar.service.kanban.view.WorkflowStatusView;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Assertions;
@@ -36,24 +36,21 @@ class KanbanTest {
         logger.info("Loaded project: " + loadedProject);
         Assertions.assertEquals(projectView.getName(), loadedProject.getName());
         Assertions.assertEquals(projectView.getDescription(), loadedProject.getDescription());
-        Assertions.assertEquals(3, loadedProject.getWorkflowStatus().size());
+        Assertions.assertEquals(3, loadedProject.getLanes().size());
 
 
         {
-            WorkflowStatusView todo = loadedProject.getWorkflowStatus().stream()
+            LaneView todo = loadedProject.getLanes().stream()
                     .filter(workflowStatusView -> workflowStatusView.getName().equals("To Do"))
                     .findFirst()
                     .orElse(null);
 
             Assertions.assertEquals("To Do", todo.getName());
             Assertions.assertEquals("Tasks that need to be done.", todo.getDescription());
-            Assertions.assertEquals(1, todo.getIssues().size());
-            IssueView issue = todo.getIssues().get(0);
-            Assertions.assertEquals("Test the Kanban service", issue.getTitle());
-            Assertions.assertEquals("This task was created to test the Kanban service.", issue.getDescription());
+            Assertions.assertEquals(3, todo.getIssues().size());
         }
         {
-            WorkflowStatusView inProgress = loadedProject.getWorkflowStatus().stream()
+            LaneView inProgress = loadedProject.getLanes().stream()
                     .filter(workflowStatusView -> workflowStatusView.getName().equals("In Progress"))
                     .findFirst()
                     .orElse(null);
@@ -66,6 +63,36 @@ class KanbanTest {
         }
     }
 
+    @Test
+    void createHugeProject(){
+        int lanes = 5;
+        int issuesPerLane = 10;
+        ProjectView projectView = new ProjectView();
+        projectView.setName("Huge Project");
+        projectView.setDescription("This is a huge project with " + lanes + " lanes and " + issuesPerLane + " issues per lane.");
+        for (int i = 0; i < lanes; i++) {
+            LaneView laneView = new LaneView();
+            laneView.setName("Lane " + i);
+            laneView.setDescription("This is lane " + i + " of the huge project.");
+            for (int j = 0; j < issuesPerLane; j++) {
+                IssueView issueView = new IssueView();
+                issueView.setTitle("Issue " + j + " of lane " + i);
+                issueView.setDescription("This is issue " + j + " of lane " + i + " of the huge project.");
+                laneView.getIssues().add(issueView);
+            }
+            projectView.getLanes().add(laneView);
+        }
+
+        Identifier<ProjectView> project = kanbanService.createProject(projectView);
+        System.out.println("Created project: " + project);
+
+        ProjectView loadedProject = kanbanService.getProject(project).get();
+        Assertions.assertEquals(projectView.getName(), loadedProject.getName());
+        Assertions.assertEquals(projectView.getDescription(), loadedProject.getDescription());
+        Assertions.assertEquals(lanes, loadedProject.getLanes().size());
+
+    }
+
 
     private static ProjectView createTestingProject() {
         ProjectView projectView = ProjectView.builder()
@@ -75,30 +102,38 @@ class KanbanTest {
                         It is used to test the functionality of the Kanban service.""")
                 .build();
 
-        WorkflowStatusView todo = WorkflowStatusView.builder()
+        LaneView todo = LaneView.builder()
                 .name("To Do")
                 .description("Tasks that need to be done.")
-                .workflowType(WorkflowStatus.WorkflowType.INITIAL)
+                .workflowType(Lane.WorkflowType.INITIAL)
                 .build();
 
-        WorkflowStatusView inProgress = WorkflowStatusView.builder()
+        LaneView inProgress = LaneView.builder()
                 .name("In Progress")
                 .description("Tasks that are currently being worked on.")
                 .build();
 
-        WorkflowStatusView done = WorkflowStatusView.builder()
+        LaneView done = LaneView.builder()
                 .name("Done")
                 .description("Tasks that are done.")
                 .build();
 
-        projectView.getWorkflowStatus().add(todo);
-        projectView.getWorkflowStatus().add(inProgress);
-        projectView.getWorkflowStatus().add(done);
+        projectView.getLanes().add(todo);
+        projectView.getLanes().add(inProgress);
+        projectView.getLanes().add(done);
 
         //add a few tasks to the project
         todo.getIssues()
                 .add(createTestingTask("Test the Kanban service",
                         "This task was created to test the Kanban service."));
+
+        todo.getIssues()
+                .add(createTestingTask("Test the Kanban service1",
+                        "This task was created to test the Kanban service."));
+        todo.getIssues()
+                .add(createTestingTask("Test the Kanban service2",
+                        "This task was created to test the Kanban service."));
+
 
         inProgress.getIssues()
                 .add(createTestingTask("Testing the Kanban service",

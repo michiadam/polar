@@ -2,13 +2,9 @@ package at.michaeladam.polar.persistence.kanban.model;
 
 
 import at.michaeladam.polar.persistence.common.EntityBase;
-import at.michaeladam.polar.persistence.common.ID;
-import at.michaeladam.polar.persistence.kanban.KanbanException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -18,9 +14,10 @@ public class Issue  extends EntityBase<Issue> {
     private String title;
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "WORKFLOW_STATUS_ID", referencedColumnName = "oid")
-    private WorkflowStatus workflowStatus;
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "workflowStatus_oid", referencedColumnName = "oid", nullable = false)
+    private Lane lane;
 
-
+    @Column(nullable = false)
+    private int orderIndex;
 }

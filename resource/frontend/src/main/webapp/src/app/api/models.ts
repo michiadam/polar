@@ -1,9 +1,9 @@
-export { IdIssueView } from './models/id-issue-view';
-export { IdProjectView } from './models/id-project-view';
-export { IdWorkflowStatusView } from './models/id-workflow-status-view';
+export { IdentifierIssueView } from './models/identifier-issue-view';
+export { IdentifierLaneView } from './models/identifier-lane-view';
 export { IdentifierProjectView } from './models/identifier-project-view';
 export { IssueView } from './models/issue-view';
+export { LaneView } from './models/lane-view';
+export { MoveIssueRequest } from './models/move-issue-request';
 export { ProjectView } from './models/project-view';
 export { Uuid } from './models/uuid';
-export { WorkflowStatusView } from './models/workflow-status-view';
 export { WorkflowType } from './models/workflow-type';

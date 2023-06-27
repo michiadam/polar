@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
-import { IdIssueView } from './id-issue-view';
+import { IdentifierIssueView } from './identifier-issue-view';
 export interface IssueView {
   description?: string;
-  id?: IdIssueView;
+  id?: IdentifierIssueView;
   title?: string;
 }

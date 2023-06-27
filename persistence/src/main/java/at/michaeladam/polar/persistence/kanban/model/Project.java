@@ -1,12 +1,10 @@
 package at.michaeladam.polar.persistence.kanban.model;
 
 import at.michaeladam.polar.persistence.common.EntityBase;
-import at.michaeladam.polar.persistence.common.ID;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Array;
 import java.util.*;
 
 @Entity
@@ -20,16 +18,16 @@ public class Project extends EntityBase<Project> {
     private String description;
 
     @OneToMany(mappedBy = "project", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @OrderColumn(name = "WORKFLOW_STATUS_ORDER")
-    private List<WorkflowStatus> workflowStatus = new ArrayList<>();
+    @OrderColumn(name = "orderIndex")
+    private List<Lane> lanes = new ArrayList<>();
 
-    public Optional<WorkflowStatus> getDefaultWorkflowStatus() {
-        return workflowStatus.stream()
-                .filter(workflowStatus -> workflowStatus.getWorkflowType() == WorkflowStatus.WorkflowType.INITIAL)
+    public Optional<Lane> getDefaultWorkflowStatus() {
+        return lanes.stream()
+                .filter(status -> status.getWorkflowType() == Lane.WorkflowType.INITIAL)
                 .findFirst();
     }
-    public void addWorkflowStatus(WorkflowStatus workflowStatus) {
-        workflowStatus.setProject(this);
-        this.workflowStatus.add(workflowStatus);
+    public void addWorkflowStatus(Lane lane) {
+        lane.setProject(this);
+        this.lanes.add(lane);
     }
 }

@@ -1,20 +1,17 @@
 package at.michaeladam.polar.persistence.kanban.model;
 
 import at.michaeladam.polar.persistence.common.EntityBase;
-import at.michaeladam.polar.persistence.common.ID;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-public class WorkflowStatus extends EntityBase<WorkflowStatus>  {
+public class Lane extends EntityBase<Lane>  {
 
 
     @Enumerated(EnumType.STRING)
@@ -23,23 +20,21 @@ public class WorkflowStatus extends EntityBase<WorkflowStatus>  {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "workflowStatus", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @OrderColumn(name = "ISSUE_ORDER")
+    @Column(nullable = false)
+    private int orderIndex;
+
+    @OneToMany(mappedBy = "lane", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OrderColumn(name = "orderIndex")
     private List<Issue> issues = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumns({@JoinColumn(name = "PROJECT_OID", referencedColumnName = "OID", nullable = false)})
+    @JoinColumn(name = "PROJECT_OID", referencedColumnName = "OID", nullable = false)
     private Project project;
 
 
-    public static WorkflowStatus createStatus( String done) {
-        WorkflowStatus workflowStatus = new WorkflowStatus();
-        workflowStatus.setName(done);
-        return workflowStatus;
-    }
 
     public void addIssue(Issue issue) {
-        issue.setWorkflowStatus(this);
+        issue.setLane(this);
         this.issues.add(issue);
     }
 

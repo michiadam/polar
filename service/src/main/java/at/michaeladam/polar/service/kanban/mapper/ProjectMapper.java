@@ -12,7 +12,7 @@ import org.mapstruct.factory.Mappers;
 
 
 @Mapper(uses = {
-        WorkflowStatusMapper.class,
+        LaneMapper.class,
         IDMapper.class
 }, collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED)
 public interface ProjectMapper {
