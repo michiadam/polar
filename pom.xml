@@ -5,9 +5,22 @@
   <groupId>at.michaeladam</groupId>
   <artifactId>polar</artifactId>
   <packaging>pom</packaging>
+  <dependencies>
+    <dependency>
+      <groupId>com.google.auto.service</groupId>
+      <artifactId>auto-service-annotations</artifactId>
+      <version>1.0-rc6</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.persistence</groupId>
+      <artifactId>jakarta.persistence-api</artifactId>
+    </dependency>
+  </dependencies>
   <version>1.0.0-SNAPSHOT</version>
 
   <modules>
+    <module>processor</module>
     <module>persistence</module>
     <module>service</module>
     <module>resource</module>
